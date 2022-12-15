@@ -34,8 +34,7 @@ type Datum = {
 type Ngram = {
   value: string,
   count: number,
-  frequency: number,
-  weight: number
+  frequency: number
 };
 
 type Config = {

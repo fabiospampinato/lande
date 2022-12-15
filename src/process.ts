@@ -6,8 +6,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {NeuralNetwork, Tensor, Trainers} from 'toygrad';
 import {DATASET_PATH, DATASET_LIMIT, DATASET_TRAIN_PERC} from './constants';
+import {DUMMY_BUFFER} from './constants';
 import {CONFIGS} from './constants';
-import {argmax, getNormalized, getNgrams, getTopKeys, padEnd} from './utils';
+import {argmax, forEachLine, getNormalized, getNgrams, getTopKeys, padEnd} from './utils';
 import type {DatasetRaw, DatumRaw, Dataset, Datum, Config, Result} from './types';
 
 /* HELPERS */
@@ -22,10 +23,9 @@ const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
 
   const datasetRaw: DatasetRaw = {};
   const langsSet = new Set ( langs );
-  const csv = fs.readFileSync ( DATASET_PATH, 'utf8' );
-  const lines = csv.split ( '\n' );
+  const csv = fs.readFileSync ( DATASET_PATH );
 
-  lines.forEach ( line => {
+  forEachLine ( csv, line => {
 
     const parts = line.split ( '\t' );
 
@@ -113,9 +113,9 @@ const getDataset = ( dataset: DatasetRaw, config: Config ): Dataset => {
 
     dataset[lang]?.forEach ( datumRaw => {
 
-      const unigramsInput = new Tensor ( 1, 1, config.network.unigrams.input, new Float32Array ( unigrams.map ( value => datumRaw.unigrams[value]?.frequency || 0 ) ) );
-      const bigramsInput = new Tensor ( 1, 1, config.network.bigrams.input, new Float32Array ( bigrams.map ( value => datumRaw.bigrams[value]?.frequency || 0 ) ) );
-      const trigramsInput = new Tensor ( 1, 1, config.network.trigrams.input, new Float32Array ( trigrams.map ( value => datumRaw.trigrams[value]?.frequency || 0 ) ) );
+      const unigramsInput = new Tensor ( 1, 1, config.network.unigrams.input, new Float32Array ( unigrams.map ( value => datumRaw.unigrams[value]?.frequency || 0 ) ), DUMMY_BUFFER );
+      const bigramsInput = new Tensor ( 1, 1, config.network.bigrams.input, new Float32Array ( bigrams.map ( value => datumRaw.bigrams[value]?.frequency || 0 ) ), DUMMY_BUFFER );
+      const trigramsInput = new Tensor ( 1, 1, config.network.trigrams.input, new Float32Array ( trigrams.map ( value => datumRaw.trigrams[value]?.frequency || 0 ) ), DUMMY_BUFFER );
       const output = config.langs.indexOf ( datumRaw.lang );
 
       const datum: Datum = { lang, sentence: datumRaw.sentence, unigramsInput, bigramsInput, trigramsInput, output };

@@ -15,6 +15,26 @@ const argmax = ( arrLike: ArrayLike<number> ): number => {
 
 };
 
+const forEachLine = ( buffer: Buffer, callback: ( line: string ) => void ): void => {
+
+  let start = 0;
+
+  while ( true ) {
+
+    const end = buffer.indexOf ( '\n', start );
+
+    if ( end <= start ) break;
+
+    const line = buffer.subarray ( start, end ).toString ();
+
+    callback ( line );
+
+    start = end + 1;
+
+  }
+
+};
+
 const getNgrams = ( str: string, length: number ): Record<string, Ngram> => {
 
   let ngrams: Record<string, number> = {};
@@ -32,7 +52,7 @@ const getNgrams = ( str: string, length: number ): Record<string, Ngram> => {
 
   const values = Object.keys ( ngrams );
   const valuesSorted = values.sort ( ( a, b ) => ngrams[b] - ngrams[a] );
-  const valuesDetailed = valuesSorted.map ( value => ({ value, count: ngrams[value], frequency: ngrams[value] / total, weight: ngrams[value] * ( ngrams[value] / total ) }) );
+  const valuesDetailed = valuesSorted.map ( value => ({ value, count: ngrams[value], frequency: ngrams[value] / total }) );
   const valuesDetailedTable = Object.fromEntries ( valuesDetailed.map ( ngram => [ngram.value, ngram] ) );
 
   return valuesDetailedTable;
@@ -91,4 +111,4 @@ const padEnd = <T> ( arr: T[], length: number, padder: T ): T[] => {
 
 /* EXPORT */
 
-export {argmax, getNgrams, getNormalized, getTopKeys, infer, padEnd};
+export {argmax, forEachLine, getNgrams, getNormalized, getTopKeys, infer, padEnd};
