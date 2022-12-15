@@ -5,6 +5,7 @@ import langdb from 'langs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {DATASET_PATH} from './constants';
+import {forEachLine} from './utils';
 import type {Stats} from './types';
 
 /* HELPERS */
@@ -13,10 +14,9 @@ const getDatasetStats = (): Stats => {
 
   const stats: Stats = [];
   const sentences: Record<string, number> = {};
-  const csv = fs.readFileSync ( DATASET_PATH, 'utf8' );
-  const lines = csv.split ( '\n' );
+  const csv = fs.readFileSync ( DATASET_PATH );
 
-  lines.forEach ( line => {
+  forEachLine ( csv, line => {
 
     const parts = line.split ( '\t' );
 

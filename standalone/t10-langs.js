@@ -1,1 +1,0 @@
-export default ["deu","eng","epo","fra","hun","ita","por","rus","spa","tur"];

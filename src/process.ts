@@ -182,7 +182,6 @@ for ( const config of CONFIGS ) {
     } else {
       fail1 += 1;
     }
-
   }
 
   console.log ( 'Pass:', pass1 );
@@ -225,7 +224,6 @@ for ( const config of CONFIGS ) {
     } else {
       fail2 += 1;
     }
-
   }
 
   console.log ( 'Pass:', pass2 );
@@ -268,7 +266,6 @@ for ( const config of CONFIGS ) {
     } else {
       fail3 += 1;
     }
-
   }
 
   console.log ( 'Pass:', pass3 );

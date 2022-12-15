@@ -8,44 +8,47 @@ import type {Config} from './types';
 
 const DATASET_PATH = path.join ( process.cwd (), 'resources', 'dataset.csv' );
 
-const DATASET_LIMIT = 20000;
+const DATASET_LIMIT = 30000;
 
 const DATASET_TRAIN_PERC = 0.8;
 
-const TATOEBA10_LANGS = ['eng', 'rus', 'ita', 'tur', 'epo', 'ber', 'deu', 'kab', 'fra', 'por'].sort ();
+const DUMMY_BUFFER = new Float32Array ();
 
-const TATOEBA10_CONFIG: Config = {
-  id: 't10',
-  langs: TATOEBA10_LANGS,
+const TOP50_LANGS = ['eng', 'deu', 'fra', 'ita', 'rus', 'tur', 'fin', 'heb', 'hun', 'jpn', 'nld', 'pol', 'por', 'spa', 'ukr', 'ces', 'cmn', 'dan', 'lit', 'mar', 'mkd', 'swe', 'ara', 'ell', 'pes', 'ron', 'srp', 'bel', 'bul', 'ckb', 'hau', 'hin', 'ind', 'isl', 'kor', 'nob', 'slk', 'tgl', 'vie', 'aze', 'ben', 'cat', 'eus', 'hrv', 'hye', 'kat', 'run', 'afr', 'est', 'kaz'].sort ();
+
+const TOP50_CONFIG: Config = {
+  id: 't50',
+  langs: TOP50_LANGS,
   network: {
     batchSize: 1,
-    epochs: 3,
+    epochs: 1,
     unigrams: {
-      input: 90,
-      hidden: 30,
-      output: TATOEBA10_LANGS.length
+      input: 100,
+      hidden: 75,
+      output: TOP50_LANGS.length
     },
     bigrams: {
-      input: 120,
-      hidden: 30,
-      output: TATOEBA10_LANGS.length
+      input: 200,
+      hidden: 100,
+      output: TOP50_LANGS.length
     },
     trigrams: {
-      input: 90,
-      hidden: 30,
-      output: TATOEBA10_LANGS.length
+      input: 200,
+      hidden: 100,
+      output: TOP50_LANGS.length
     },
     omnigrams: {
-      input: TATOEBA10_LANGS.length * 3,
-      hidden: 30,
-      output: TATOEBA10_LANGS.length
+      input: TOP50_LANGS.length * 3,
+      hidden: TOP50_LANGS.length,
+      output: TOP50_LANGS.length
     }
   }
 };
 
-const CONFIGS = [TATOEBA10_CONFIG];
+const CONFIGS = [TOP50_CONFIG];
 
 /* EXPORT */
 
 export {DATASET_PATH, DATASET_LIMIT, DATASET_TRAIN_PERC};
-export {TATOEBA10_LANGS, TATOEBA10_CONFIG, CONFIGS};
+export {DUMMY_BUFFER};
+export {TOP50_LANGS, TOP50_CONFIG, CONFIGS};

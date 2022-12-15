@@ -3,12 +3,12 @@
 
 import {NeuralNetwork} from 'toygrad';
 import {infer} from './utils.js';
-import langs from './t10-langs.js';
-import ngrams from './t10-ngrams.js';
-import nn1options from './t10-nn1.js';
-import nn2options from './t10-nn2.js';
-import nn3options from './t10-nn3.js';
-import nnXoptions from './t10-nnX.js';
+import langs from './t50-langs.js';
+import ngrams from './t50-ngrams.js';
+import nn1options from './t50-nn1.js';
+import nn2options from './t50-nn2.js';
+import nn3options from './t50-nn3.js';
+import nnXoptions from './t50-nnX.js';
 
 /* HELPERS */
 

@@ -5,6 +5,15 @@ import type {Tensor} from 'toygrad';
 
 /* MAIN */
 
+type DatasetTest = {
+  [lang: string]: DatumTest[]
+};
+
+type DatumTest = {
+  lang: string,
+  sentence: string
+};
+
 type DatasetRaw = {
   [lang: string]: DatumRaw[]
 };
@@ -76,5 +85,5 @@ type Stats = {
 
 /* EXPORT */
 
-export type {Dataset, Datum, DatasetRaw, DatumRaw};
+export type {Dataset, Datum, DatasetRaw, DatumRaw, DatasetTest, DatumTest};
 export type {Ngram, Config, Result, Stats};

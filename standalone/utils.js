@@ -23,7 +23,7 @@ var randn = (mean, stdev) => {
 
 // node_modules/toygrad/dist/tensor.js
 var Tensor = class {
-  constructor(sx, sy, sz, value) {
+  constructor(sx, sy, sz, value, dvalue) {
     this.sx = sx;
     this.sy = sy;
     this.sz = sz;
@@ -32,20 +32,17 @@ var Tensor = class {
       const scale = Math.sqrt(1 / this.length);
       const get = () => randn(0, scale);
       this.w = new buffer_default(this.length).map(get);
-      this.dw = new buffer_default(this.length);
     } else if (isNumber(value)) {
       this.w = new buffer_default(this.length);
-      this.dw = new buffer_default(this.length);
       if (value !== 0) {
         this.w.fill(value);
       }
     } else if (isBuffer(value)) {
       this.w = value;
-      this.dw = new buffer_default(this.length);
     } else {
       this.w = new buffer_default(value);
-      this.dw = new buffer_default(this.length);
     }
+    this.dw = dvalue || new buffer_default(this.length);
   }
   index(x, y, z) {
     return (this.sx * y + x) * this.sz + z;
@@ -84,6 +81,17 @@ var argmax = (arrLike) => {
   const arr = Array.from(arrLike);
   return arr.indexOf(Math.max(...arr));
 };
+var forEachLine = (buffer, callback) => {
+  let start = 0;
+  while (true) {
+    const end = buffer.indexOf("\n", start);
+    if (end <= start)
+      break;
+    const line = buffer.subarray(start, end).toString();
+    callback(line);
+    start = end + 1;
+  }
+};
 var getNgrams = (str, length) => {
   let ngrams = {};
   let total = 0;
@@ -95,7 +103,7 @@ var getNgrams = (str, length) => {
   }
   const values = Object.keys(ngrams);
   const valuesSorted = values.sort((a, b) => ngrams[b] - ngrams[a]);
-  const valuesDetailed = valuesSorted.map((value) => ({ value, count: ngrams[value], frequency: ngrams[value] / total, weight: ngrams[value] * (ngrams[value] / total) }));
+  const valuesDetailed = valuesSorted.map((value) => ({ value, count: ngrams[value], frequency: ngrams[value] / total }));
   const valuesDetailedTable = Object.fromEntries(valuesDetailed.map((ngram) => [ngram.value, ngram]));
   return valuesDetailedTable;
 };
@@ -144,6 +152,7 @@ var padEnd = (arr, length, padder) => {
 };
 export {
   argmax,
+  forEachLine,
   getNgrams,
   getNormalized,
   getTopKeys,
