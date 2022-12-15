@@ -26,6 +26,9 @@
     "neural",
     "network"
   ],
+  "dependencies": {
+    "toygrad": "^2.3.0"
+  },
   "devDependencies": {
     "@types/langs": "^2.0.1",
     "@types/lodash": "^4.14.191",
@@ -38,7 +41,6 @@
     "langs": "^2.0.0",
     "lodash": "^4.17.21",
     "tiny-colors": "^2.0.1",
-    "toygrad": "^2.3.0",
     "tsex": "^1.1.4",
     "typescript": "^4.9.4"
   }
