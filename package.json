@@ -1,38 +1,38 @@
 {
-  "private": true,
   "name": "lande",
   "repository": "github:fabiospampinato/lande",
-  "description": "Work in progress language detection.",
+  "description": "A tiny neural network for natural language detection.",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "dataset:download": "wget https://downloads.tatoeba.org/exports/sentences.tar.bz2 -O resources/dataset.tar.bz2",
     "dataset:unpack": "tar -xf resources/dataset.tar.bz2 && mv sentences.csv resources/dataset.csv",
-    "---------------": "---------------",
-    "clean": "tsex clean",
-    "compile": "tsex compile",
-    "compile:watch": "tsex compile --watch",
-    "prepublishOnly": "npm run clean && npm run compile"
+    "dataset:process": "bun src/process.ts",
+    "dataset:stats": "bun src/stats.ts",
+    "dataset:utils": "esbuild --bundle --format=esm --target=es6 src/utils.ts > standalone/utils.js",
+    "update": "npm run dataset:download && npm run dataset:unpack && npm run dataset:process"
   },
   "keywords": [
+    "tiny",
+    "natural",
     "language",
-    "detection"
+    "detection",
+    "neural",
+    "network"
   ],
   "devDependencies": {
+    "@types/langs": "^2.0.1",
     "@types/lodash": "^4.14.191",
-    "@types/node": "^18.11.12",
-    "@types/sha1": "^1.1.3",
+    "@types/node": "^18.11.15",
+    "esbuild": "^0.16.7",
+    "langs": "^2.0.0",
     "lodash": "^4.17.21",
-    "sha1": "^1.1.1",
-    "toygrad": "^2.2.0",
+    "toygrad": "^2.2.1",
     "tsex": "^1.1.4",
     "typescript": "^4.9.4"
-  },
-  "dependencies": {
-    "line-reader": "^0.4.0",
-    "n-readlines": "^1.0.1"
   }
 }
