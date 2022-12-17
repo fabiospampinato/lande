@@ -61,10 +61,11 @@ const getNgrams = ( str: string, length: number ): Record<string, Ngram> => {
 
 const getNormalized = ( str: string ): string => {
 
+  const hyphenRe = /-+/g;
   const ignoreRe = /[^\p{L}\p{M}\s]/gu;
   const whitespaceRe = /\s{2,}/g;
 
-  return ` ${str.replace ( ignoreRe, '' ).replace ( whitespaceRe, ' ' ).toLowerCase ().trim ()} `;
+  return ` ${str.replace ( hyphenRe, ' ' ).replace ( ignoreRe, '' ).replace ( whitespaceRe, ' ' ).toLowerCase ().trim ()} `;
 
 };
 
