@@ -25,7 +25,7 @@ const TOP50_CONFIG: Config = {
   langs: TOP50_LANGS,
   network: {
     batchSize: 1,
-    epochs: 5,
+    epochs: 3,
     unigrams: {
       input: 100,
       hidden: 70,

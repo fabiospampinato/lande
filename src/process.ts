@@ -315,19 +315,19 @@ for ( const config of CONFIGS ) {
   const ngramsModule = `export default ${JSON.stringify ( ngrams )};`;
 
   const nn1path = path.join ( process.cwd (), 'standalone', `${config.id}-nn1.js` );
-  const nn1options = nn1.getAsOptions ( 'f16' );
+  const nn1options = nn1.getAsOptions ( 'f8' );
   const nn1module = `export default ${JSON.stringify ( nn1options )};`;
 
   const nn2path = path.join ( process.cwd (), 'standalone', `${config.id}-nn2.js` );
-  const nn2options = nn2.getAsOptions ( 'f16' );
+  const nn2options = nn2.getAsOptions ( 'f8' );
   const nn2module = `export default ${JSON.stringify ( nn2options )};`;
 
   const nn3path = path.join ( process.cwd (), 'standalone', `${config.id}-nn3.js` );
-  const nn3options = nn3.getAsOptions ( 'f16' );
+  const nn3options = nn3.getAsOptions ( 'f8' );
   const nn3module = `export default ${JSON.stringify ( nn3options )};`;
 
   const nnXpath = path.join ( process.cwd (), 'standalone', `${config.id}-nnX.js` );
-  const nnXoptions = nnX.getAsOptions ( 'f16' );
+  const nnXoptions = nnX.getAsOptions ( 'f8' );
   const nnXmodule = `export default ${JSON.stringify ( nnXoptions )};`;
 
   fs.writeFileSync ( langsPath, langsModule );
