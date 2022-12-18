@@ -2,7 +2,7 @@
   "name": "lande",
   "repository": "github:fabiospampinato/lande",
   "description": "A little neural network for natural language detection.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "standalone/t50.js",
   "exports": "./standalone/t50.js",
