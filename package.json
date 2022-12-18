@@ -28,7 +28,7 @@
     "network"
   ],
   "dependencies": {
-    "toygrad": "^2.4.0"
+    "toygrad": "^2.5.0"
   },
   "devDependencies": {
     "@types/langs": "^2.0.1",
