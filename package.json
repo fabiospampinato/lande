@@ -13,6 +13,7 @@
     "compile:watch": "tsex compile --watch",
     "dataset:download": "wget https://downloads.tatoeba.org/exports/sentences.tar.bz2 -O resources/dataset.tar.bz2",
     "dataset:unpack": "tar -xf resources/dataset.tar.bz2 && mv sentences.csv resources/dataset.csv",
+    "dataset:benchmark": "npm run compile && node --max-old-space-size=20000 dist/benchmark.js",
     "dataset:compare": "npm run compile && node --max-old-space-size=20000 dist/compare.js",
     "dataset:process": "npm run compile && node --max-old-space-size=20000 dist/process.js",
     "dataset:stats": "npm run compile && node --max-old-space-size=20000 dist/stats.js",
