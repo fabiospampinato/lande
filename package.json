@@ -18,7 +18,10 @@
     "dataset:process": "npm run compile && node --max-old-space-size=20000 dist/process.js",
     "dataset:stats": "npm run compile && node --max-old-space-size=20000 dist/stats.js",
     "dataset:utils": "esbuild --bundle --format=esm --target=es6 src/utils.ts > standalone/utils.js",
-    "update": "npm run dataset:download && npm run dataset:unpack && npm run dataset:stats && npm run dataset:process && npm run dataset:utils"
+    "update": "npm run dataset:download && npm run dataset:unpack && npm run dataset:stats && npm run dataset:process && npm run dataset:utils",
+    "test": "tsex test",
+    "test:watch": "tsex --watch",
+    "prepublishOnly": "npm run test"
   },
   "keywords": [
     "tiny",
@@ -37,6 +40,7 @@
     "@types/node": "^18.11.17",
     "cld3-asm": "^3.1.1",
     "esbuild": "^0.16.9",
+    "fava": "^0.0.7",
     "franc": "^6.1.0",
     "franc-all": "^7.1.0",
     "franc-min": "^6.1.0",
