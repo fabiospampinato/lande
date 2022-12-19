@@ -89,7 +89,7 @@ CONFIGS[0].langs.forEach ( lang => {
 
     const resultCld3 = bcp2iso[cld.findLanguage ( datum.sentence ).language];
     const resultFranc = franc ( datum.sentence );
-    const resultFrancAll = francAll ( datum.sentence );
+    // const resultFrancAll = francAll ( datum.sentence );
     const resultFrancMin = francMin ( datum.sentence );
     const resultLande = lande ( datum.sentence )[0][0];
 
@@ -111,11 +111,11 @@ CONFIGS[0].langs.forEach ( lang => {
       result.franc.fail += 1;
     }
 
-    if ( resultFrancAll === datum.lang ) {
-      result.francAll.pass += 1;
-    } else {
-      result.francAll.fail += 1;
-    }
+    // if ( resultFrancAll === datum.lang ) {
+    //   result.francAll.pass += 1;
+    // } else {
+    //   result.francAll.fail += 1;
+    // }
 
     if ( resultFrancMin === datum.lang ) {
       result.francMin.pass += 1;

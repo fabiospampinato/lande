@@ -51,6 +51,7 @@ type Config = {
   langs: string[],
   network: {
     batchSize: number,
+    learningRate: number,
     epochs: number,
     unigrams: number,
     bigrams: number,

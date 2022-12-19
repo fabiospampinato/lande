@@ -158,8 +158,9 @@ for ( const config of CONFIGS ) {
     ]
   });
 
-  const trainer = new Trainers.Adadelta ( nn, {
-    batchSize: config.network.batchSize
+  const trainer = new Trainers.SGD ( nn, {
+    batchSize: config.network.batchSize,
+    learningRate: config.network.learningRate
   });
 
   for ( let epoch = 0; epoch < config.network.epochs; epoch++ ) {
