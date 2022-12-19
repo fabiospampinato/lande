@@ -27,6 +27,7 @@ const CONFIGS: Config[] = [
       unigrams: 85,
       bigrams: 160,
       trigrams: 160,
+      quadgrams: 100,
       hidden: 85
     }
   }

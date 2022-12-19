@@ -71,16 +71,18 @@ const getTopKeys = ( obj: Record<string, number> ): string[] => {
 
 };
 
-const infer = ( text: string, langs: string[], ngrams: Record<'unigrams' | 'bigrams' | 'trigrams', string[]>, nn: NeuralNetwork ): Result => {
+const infer = ( text: string, langs: string[], ngrams: Record<'unigrams' | 'bigrams' | 'trigrams' | 'quadgrams', string[]>, nn: NeuralNetwork ): Result => {
 
   const textNorm = getNormalized ( text );
   const unigrams = getNgrams ( textNorm, 1 );
   const bigrams = getNgrams ( textNorm, 2 );
   const trigrams = getNgrams ( textNorm, 3 );
+  const quadgrams = getNgrams ( textNorm, 4 );
   const inputUnigrams = ngrams.unigrams.map ( value => unigrams[value]?.frequency || 0 );
   const inputBigrams = ngrams.bigrams.map ( value => bigrams[value]?.frequency || 0 );
   const inputTrigrams = ngrams.trigrams.map ( value => trigrams[value]?.frequency || 0 );
-  const inputNgrams = [...inputUnigrams, ...inputBigrams, ...inputTrigrams];
+  const inputQuadgrams = ngrams.quadgrams.map ( value => quadgrams[value]?.frequency || 0 );
+  const inputNgrams = [...inputUnigrams, ...inputBigrams, ...inputTrigrams, ...inputQuadgrams];
   const input = new Tensor ( 1, 1, inputNgrams.length, new Float32Array ( inputNgrams ) );
   const output = nn.forward ( input, false ).w;
   const result = Array.from ( output ).map<[string, number]> ( ( probability, index ) => [langs[index], probability] );

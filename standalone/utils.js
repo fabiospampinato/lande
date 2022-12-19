@@ -118,6 +118,7 @@ var infer = (text, langs, ngrams, nn) => {
   const unigrams = getNgrams(textNorm, 1);
   const bigrams = getNgrams(textNorm, 2);
   const trigrams = getNgrams(textNorm, 3);
+  const quadgrams = getNgrams(textNorm, 4);
   const inputUnigrams = ngrams.unigrams.map((value) => {
     var _a;
     return ((_a = unigrams[value]) == null ? void 0 : _a.frequency) || 0;
@@ -130,7 +131,11 @@ var infer = (text, langs, ngrams, nn) => {
     var _a;
     return ((_a = trigrams[value]) == null ? void 0 : _a.frequency) || 0;
   });
-  const inputNgrams = [...inputUnigrams, ...inputBigrams, ...inputTrigrams];
+  const inputQuadgrams = ngrams.quadgrams.map((value) => {
+    var _a;
+    return ((_a = quadgrams[value]) == null ? void 0 : _a.frequency) || 0;
+  });
+  const inputNgrams = [...inputUnigrams, ...inputBigrams, ...inputTrigrams, ...inputQuadgrams];
   const input = new tensor_default(1, 1, inputNgrams.length, new Float32Array(inputNgrams));
   const output = nn.forward(input, false).w;
   const result = Array.from(output).map((probability, index) => [langs[index], probability]);

@@ -26,7 +26,8 @@ type DatumRaw = {
   sentence: string,
   unigrams: Record<string, Ngram>,
   bigrams: Record<string, Ngram>,
-  trigrams: Record<string, Ngram>
+  trigrams: Record<string, Ngram>,
+  quadgrams: Record<string, Ngram>
 };
 
 type DatasetTest = {
@@ -56,6 +57,7 @@ type Config = {
     unigrams: number,
     bigrams: number,
     trigrams: number,
+    quadgrams: number,
     hidden: number
   }
 };

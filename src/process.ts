@@ -40,8 +40,9 @@ const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
     const unigrams = getNgrams ( sentenceNorm, 1 );
     const bigrams = getNgrams ( sentenceNorm, 2 );
     const trigrams = getNgrams ( sentenceNorm, 3 );
+    const quadgrams = getNgrams ( sentenceNorm, 4 );
 
-    const datumRaw: DatumRaw = { lang, sentence, unigrams, bigrams, trigrams };
+    const datumRaw: DatumRaw = { lang, sentence, unigrams, bigrams, trigrams, quadgrams };
 
     datasetRaw[lang] ||= [];
     datasetRaw[lang].push ( datumRaw );
@@ -52,7 +53,7 @@ const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
 
 };
 
-const getDatasetRawTopNgrams = ( dataset: DatasetRaw, config: Config, type: 'unigrams' | 'bigrams' | 'trigrams' ): string[] => {
+const getDatasetRawTopNgrams = ( dataset: DatasetRaw, config: Config, type: 'unigrams' | 'bigrams' | 'trigrams' | 'quadgrams' ): string[] => {
 
   const ngrams: Record<string, Record<string, number>> = {};
 
@@ -101,6 +102,7 @@ const getDataset = ( dataset: DatasetRaw, config: Config ): Dataset => {
   const unigrams = getDatasetRawTopNgrams ( dataset, config, 'unigrams' );
   const bigrams = getDatasetRawTopNgrams ( dataset, config, 'bigrams' );
   const trigrams = getDatasetRawTopNgrams ( dataset, config, 'trigrams' );
+  const quadgrams = getDatasetRawTopNgrams ( dataset, config, 'quadgrams' );
 
   let train: Datum[] = [];
   let test: Datum[] = [];
@@ -114,7 +116,8 @@ const getDataset = ( dataset: DatasetRaw, config: Config ): Dataset => {
       const inputUnigrams = unigrams.map ( value => datumRaw.unigrams[value]?.frequency || 0 );
       const inputBigrams = bigrams.map ( value => datumRaw.bigrams[value]?.frequency || 0 );
       const inputTrigrams = trigrams.map ( value => datumRaw.trigrams[value]?.frequency || 0 );
-      const inputNgrams = [...inputUnigrams, ...inputBigrams, ...inputTrigrams];
+      const inputQuadgrams = quadgrams.map ( value => datumRaw.quadgrams[value]?.frequency || 0 );
+      const inputNgrams = [...inputUnigrams, ...inputBigrams, ...inputTrigrams, ...inputQuadgrams];
       const input = new Tensor ( 1, 1, inputNgrams.length, new Float32Array ( inputNgrams ) );
       const output = config.langs.indexOf ( datumRaw.lang );
 
@@ -150,7 +153,7 @@ for ( const config of CONFIGS ) {
 
   const nn = new NeuralNetwork ({
     layers: [
-      { type: 'input', sx: 1, sy: 1, sz: config.network.unigrams + config.network.bigrams + config.network.trigrams },
+      { type: 'input', sx: 1, sy: 1, sz: config.network.unigrams + config.network.bigrams + config.network.trigrams + config.network.quadgrams },
       { type: 'dense', filters: config.network.hidden, bias: 0.1 },
       { type: 'relu' },
       { type: 'dense', filters: config.langs.length },
@@ -180,7 +183,8 @@ for ( const config of CONFIGS ) {
   const unigrams = getDatasetRawTopNgrams ( datasetRaw, config, 'unigrams' );
   const bigrams = getDatasetRawTopNgrams ( datasetRaw, config, 'bigrams' );
   const trigrams = getDatasetRawTopNgrams ( datasetRaw, config, 'trigrams' );
-  const ngrams = { unigrams, bigrams, trigrams };
+  const quadgrams = getDatasetRawTopNgrams ( datasetRaw, config, 'quadgrams' );
+  const ngrams = { unigrams, bigrams, trigrams, quadgrams };
   const ngramsPath = path.join ( process.cwd (), 'standalone', `${config.id}-ngrams.js` );
   const ngramsModule = `export default ${JSON.stringify ( ngrams )};`;
 
@@ -226,6 +230,6 @@ for ( const config of CONFIGS ) {
   console.log ( 'Fail:', fail );
   console.log ( 'Loss:', loss );
   console.log ( 'Accuracy:', ( pass * 100 ) / ( pass + fail ) );
-  console.log ( 'Weights:', ( ( config.network.unigrams + config.network.bigrams + config.network.trigrams ) * config.network.hidden ) + config.network.hidden + ( ( config.network.hidden * config.langs.length ) + config.langs.length ) );
+  console.log ( 'Weights:', ( ( config.network.unigrams + config.network.bigrams + config.network.trigrams + config.network.quadgrams ) * config.network.hidden ) + config.network.hidden + ( ( config.network.hidden * config.langs.length ) + config.langs.length ) );
 
 }
