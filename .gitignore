@@ -37,4 +37,6 @@ bower_components
 node_modules
 package-lock.json
 dist
-resources
+resources/dataset.csv
+resources/dataset.tar.bz2
+resources/stats.json

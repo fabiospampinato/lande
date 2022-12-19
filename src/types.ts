@@ -3,15 +3,18 @@
 
 import type {Tensor} from 'toygrad';
 
-/* MAIN */
+/* DATASET */
 
-type DatasetTest = {
-  [lang: string]: DatumTest[]
+type Dataset = {
+  train: Datum[],
+  test: Datum[]
 };
 
-type DatumTest = {
+type Datum = {
   lang: string,
-  sentence: string
+  sentence: string,
+  input: Tensor,
+  output: number
 };
 
 type DatasetRaw = {
@@ -26,19 +29,16 @@ type DatumRaw = {
   trigrams: Record<string, Ngram>
 };
 
-type Dataset = {
-  train: Datum[],
-  test: Datum[]
+type DatasetTest = {
+  [lang: string]: DatumTest[]
 };
 
-type Datum = {
+type DatumTest = {
   lang: string,
-  sentence: string,
-  unigramsInput: Tensor,
-  bigramsInput: Tensor,
-  trigramsInput: Tensor,
-  output: number
+  sentence: string
 };
+
+/* OTHERS */
 
 type Ngram = {
   value: string,
@@ -52,26 +52,10 @@ type Config = {
   network: {
     batchSize: number,
     epochs: number,
-    unigrams: {
-      input: number,
-      hidden: number,
-      output: number
-    },
-    bigrams: {
-      input: number,
-      hidden: number,
-      output: number
-    },
-    trigrams: {
-      input: number,
-      hidden: number,
-      output: number
-    },
-    omnigrams: {
-      input: number,
-      hidden: number,
-      output: number
-    }
+    unigrams: number,
+    bigrams: number,
+    trigrams: number,
+    hidden: number
   }
 };
 

@@ -7,8 +7,7 @@ import {franc as francAll} from 'franc-all';
 import {franc as francMin} from 'franc-min';
 import fs from 'node:fs';
 import lande from '../standalone/t50.js';
-import {DATASET_PATH, DATASET_BENCHMARK_LIMIT} from './constants';
-import {CONFIGS} from './constants';
+import {DATASET_PATH, DATASET_BENCHMARK_LIMIT, CONFIGS} from './constants';
 import {forEachLine} from './utils';
 import type {DatasetTest, DatumTest} from './types';
 
@@ -47,7 +46,7 @@ const getDataset = ( langs: string[] ): DatasetTest => {
 /* MAIN */
 
 const cldFactory = await loadModule ();
-const cld = cldFactory.create ();
+const cld = cldFactory.create ( 0, 1_000_000 );
 const dataset = getDataset ( CONFIGS[0].langs );
 
 console.time ( 'cld3' );

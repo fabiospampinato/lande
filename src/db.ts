@@ -43,7 +43,7 @@ const DB = [
   {
     'name': 'Hebrew',
     'iso6393': 'heb',
-    'bcp47': 'he'
+    'bcp47': 'iw'
   },
   {
     'name': 'Hungarian',
@@ -120,7 +120,7 @@ const DB = [
   {
     'name': 'Arabic',
     'iso6393': 'ara',
-    'bcp47': 'arb'
+    'bcp47': 'ar'
   },
   {
     'name': 'Greek',
@@ -186,7 +186,7 @@ const DB = [
   {
     'name': 'Norwegian Bokmål',
     'iso6393': 'nob',
-    'bcp47': 'nb'
+    'bcp47': 'no'
   },
   {
     'name': 'Slovak',

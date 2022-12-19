@@ -1,7 +1,7 @@
 {
   "name": "lande",
   "repository": "github:fabiospampinato/lande",
-  "description": "A little neural network for natural language detection.",
+  "description": "A tiny neural network for natural language detection.",
   "version": "1.0.3",
   "type": "module",
   "main": "standalone/t50.js",
@@ -18,9 +18,10 @@
     "dataset:process": "npm run compile && node --max-old-space-size=20000 dist/process.js",
     "dataset:stats": "npm run compile && node --max-old-space-size=20000 dist/stats.js",
     "dataset:utils": "esbuild --bundle --format=esm --target=es6 src/utils.ts > standalone/utils.js",
-    "update": "npm run dataset:download && npm run dataset:unpack && npm run dataset:stats && npm run dataset:process"
+    "update": "npm run dataset:download && npm run dataset:unpack && npm run dataset:stats && npm run dataset:process && npm run dataset:utils"
   },
   "keywords": [
+    "tiny",
     "natural",
     "language",
     "detection",
@@ -33,9 +34,9 @@
   "devDependencies": {
     "@types/langs": "^2.0.1",
     "@types/lodash": "^4.14.191",
-    "@types/node": "^18.11.16",
+    "@types/node": "^18.11.17",
     "cld3-asm": "^3.1.1",
-    "esbuild": "^0.16.8",
+    "esbuild": "^0.16.9",
     "franc": "^6.1.0",
     "franc-all": "^7.1.0",
     "franc-min": "^6.1.0",

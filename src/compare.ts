@@ -9,8 +9,7 @@ import {franc as francMin} from 'franc-min';
 import fs from 'node:fs';
 import colors from 'tiny-colors';
 import lande from '../standalone/t50.js';
-import {DATASET_PATH, DATASET_TEST_LIMIT} from './constants';
-import {CONFIGS} from './constants';
+import {DATASET_PATH, DATASET_TEST_LIMIT, CONFIGS} from './constants';
 import DB from './db';
 import {forEachLine} from './utils';
 import type {DatasetTest, DatumTest} from './types';
@@ -54,7 +53,7 @@ const results: Record<string, Record<'cld3' | 'franc' | 'francAll' | 'francMin' 
 const bcp2iso = Object.fromEntries ( Object.values ( DB ).map ( lang => [lang.bcp47, lang.iso6393] ) );
 
 const cldFactory = await loadModule ();
-const cld = cldFactory.create ();
+const cld = cldFactory.create ( 0, 1_000_000 );
 
 CONFIGS[0].langs.forEach ( lang => {
 
@@ -88,7 +87,7 @@ CONFIGS[0].langs.forEach ( lang => {
 
   dataset[lang]?.forEach ( datum => {
 
-    const resultCld3 = cld.findLanguage ( datum.sentence ).language;
+    const resultCld3 = bcp2iso[cld.findLanguage ( datum.sentence ).language];
     const resultFranc = franc ( datum.sentence );
     const resultFrancAll = francAll ( datum.sentence );
     const resultFrancMin = francMin ( datum.sentence );
@@ -100,7 +99,7 @@ CONFIGS[0].langs.forEach ( lang => {
     result.francMin.total += 1;
     result.lande.total += 1;
 
-    if ( resultCld3 === bcp2iso[datum.lang] ) {
+    if ( resultCld3 === datum.lang ) {
       result.cld3.pass += 1;
     } else {
       result.cld3.fail += 1;
