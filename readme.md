@@ -94,7 +94,7 @@ The library exports a single function which gives you a sorted list of detected 
 import lande from 'lande';
 
 lande ( 'What language do you think this sentence is written in?' ); // => [['eng', 0.9999921321868896], ['deu', 0.000002357382982154377], ['heb', 0.000001461773877053929], ...]
-lande ( 'In che lingua pensi che questa frase sia scritta?' ); // => [['ita', 0.9999935626983643], ['ell', 0.0000025603442281862954], ['vie', 0.000002114558583343751], ...]
+lande ( 'In che lingua pensi che sia scritta questa frase?' ); // => [['ita', 0.9999935626983643], ['ell', 0.0000025603442281862954], ['vie', 0.000002114558583343751], ...]
 ```
 
 ## License

@@ -9,7 +9,7 @@ import {franc as francMin} from 'franc-min';
 import fs from 'node:fs';
 import colors from 'tiny-colors';
 import lande from '../standalone/t50.js';
-import {DATASET_PATH, DATASET_TEST_LIMIT, CONFIGS} from './constants';
+import {DATASET_PATH, DATASET_TRAIN_LIMIT, DATASET_TEST_LIMIT, CONFIGS} from './constants';
 import DB from './db';
 import {forEachLine} from './utils';
 import type {DatasetTest, DatumTest} from './types';
@@ -33,12 +33,18 @@ const getDataset = ( langs: string[] ): DatasetTest => {
 
     if ( !langsSet.has ( lang ) ) return;
 
-    if ( dataset[lang]?.length >= DATASET_TEST_LIMIT ) return; // Already parsed enough sentences
+    if ( dataset[lang]?.length >= DATASET_TEST_LIMIT + DATASET_TRAIN_LIMIT ) return; // Already parsed enough sentences
 
     const datum: DatumTest = { lang, sentence };
 
     dataset[lang] ||= [];
     dataset[lang].push ( datum );
+
+  });
+
+  langs.forEach ( lang => {
+
+    dataset[lang] = dataset[lang].slice ( - DATASET_TEST_LIMIT );
 
   });
 
