@@ -10,7 +10,7 @@ const DATASET_PATH = path.join ( process.cwd (), 'resources', 'dataset.csv' );
 
 const DATASET_BENCHMARK_LIMIT = 1000;
 
-const DATASET_TRAIN_LIMIT = 10000;
+const DATASET_TRAIN_LIMIT = 30000;
 
 const DATASET_TEST_LIMIT = 30000;
 
