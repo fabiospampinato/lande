@@ -7,7 +7,7 @@ import {franc as francAll} from 'franc-all';
 import {franc as francMin} from 'franc-min';
 import fs from 'node:fs';
 import lande from '../standalone/t50.js';
-import {DATASET_PATH, DATASET_BENCHMARK_LIMIT, CONFIGS} from './constants';
+import {DATASET_PATH, DATASET_BENCHMARK_LENGTH_MIN, DATASET_BENCHMARK_LIMIT, CONFIGS} from './constants';
 import {forEachLine} from './utils';
 import type {DatasetTest, DatumTest} from './types';
 
@@ -31,6 +31,8 @@ const getDataset = ( langs: string[] ): DatasetTest => {
     if ( !langsSet.has ( lang ) ) return;
 
     if ( dataset[lang]?.length >= DATASET_BENCHMARK_LIMIT ) return; // Already parsed enough sentences
+
+    if ( sentence.length <= DATASET_BENCHMARK_LENGTH_MIN ) return;
 
     const datum: DatumTest = { lang, sentence };
 

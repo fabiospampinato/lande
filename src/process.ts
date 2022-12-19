@@ -5,7 +5,7 @@ import _ from 'lodash';
 import fs from 'node:fs';
 import path from 'node:path';
 import {NeuralNetwork, Tensor, Trainers} from 'toygrad';
-import {DATASET_PATH, DATASET_TRAIN_LIMIT, DATASET_TRAIN_PERC, CONFIGS} from './constants';
+import {DATASET_PATH, DATASET_TRAIN_LENGTH_MIN, DATASET_TRAIN_LIMIT, DATASET_TRAIN_PERC, CONFIGS} from './constants';
 import {forEachLine, getNormalized, getNgrams, getTopKeys, padEnd} from './utils';
 import type {DatasetRaw, DatumRaw, Dataset, Datum, Config, Result} from './types';
 
@@ -35,6 +35,8 @@ const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
     if ( !langsSet.has ( lang ) ) return;
 
     if ( datasetRaw[lang]?.length >= DATASET_TRAIN_LIMIT ) return; // Already parsed enough sentences
+
+    if ( sentence.length <= DATASET_TRAIN_LENGTH_MIN ) return;
 
     const sentenceNorm = getNormalized ( sentence );
     const unigrams = getNgrams ( sentenceNorm, 1 );
