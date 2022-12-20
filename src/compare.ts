@@ -4,7 +4,7 @@
 import _ from 'lodash';
 import {loadModule} from 'cld3-asm';
 import {franc as franc} from 'franc';
-import {franc as francAll} from 'franc-all';
+// import {franc as francAll} from 'franc-all';
 import {franc as francMin} from 'franc-min';
 import fs from 'node:fs';
 import colors from 'tiny-colors';

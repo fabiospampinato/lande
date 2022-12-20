@@ -20,6 +20,7 @@ const getConfigsLangs = ( configs: Config[] ): string[] => {
 const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
 
   const datasetRaw: DatasetRaw = {};
+  const datasetFallbackRaw: DatasetRaw = {};
   const langsSet = new Set ( langs );
   const csv = fs.readFileSync ( DATASET_PATH );
 
@@ -34,9 +35,15 @@ const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
 
     if ( !langsSet.has ( lang ) ) return;
 
-    if ( datasetRaw[lang]?.length >= DATASET_TRAIN_LIMIT ) return; // Already parsed enough sentences
+    const longNr = datasetRaw[lang]?.length || 0;
+    const shortNr = datasetFallbackRaw[lang]?.length || 0;
 
-    if ( sentence.length <= DATASET_TRAIN_LENGTH_MIN ) return;
+    if ( longNr >= DATASET_TRAIN_LIMIT ) return; // Already parsed enough sentences
+
+    if ( shortNr >= ( DATASET_TRAIN_LIMIT - longNr ) ) return; // Already parsed enough fallback sentences
+
+    const isLongEnough = ( sentence.length >= DATASET_TRAIN_LENGTH_MIN );
+    const bucket = isLongEnough ? datasetRaw : datasetFallbackRaw;
 
     const sentenceNorm = getNormalized ( sentence );
     const unigrams = getNgrams ( sentenceNorm, 1 );
@@ -46,8 +53,20 @@ const getDatasetRaw = ( langs: string[] ): DatasetRaw => {
 
     const datumRaw: DatumRaw = { lang, sentence, unigrams, bigrams, trigrams, quadgrams };
 
-    datasetRaw[lang] ||= [];
-    datasetRaw[lang].push ( datumRaw );
+    bucket[lang] ||= [];
+    bucket[lang].push ( datumRaw );
+
+  });
+
+  langs.forEach ( lang => {
+
+    const long = datasetRaw[lang] || [];
+    const short = datasetFallbackRaw[lang] || [];
+    const shortSorted = short.sort ( ( a, b ) => b.sentence.length - a.sentence.length );
+    const fallbackNr = Math.max ( 0, ( DATASET_TRAIN_LIMIT - long.length ) );
+    const fallback = shortSorted.slice ( 0, fallbackNr );
+
+    datasetRaw[lang] = long.concat ( fallback );
 
   });
 
@@ -163,9 +182,8 @@ for ( const config of CONFIGS ) {
     ]
   });
 
-  const trainer = new Trainers.SGD ( nn, {
-    batchSize: config.network.batchSize,
-    learningRate: config.network.learningRate
+  const trainer = new Trainers.Adadelta ( nn, {
+    batchSize: config.network.batchSize
   });
 
   for ( let epoch = 0; epoch < config.network.epochs; epoch++ ) {
