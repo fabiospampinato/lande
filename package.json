@@ -6,6 +6,7 @@
   "type": "module",
   "main": "standalone/t50.js",
   "exports": "./standalone/t50.js",
+  "types": "./standalone/t50.d.ts",
   "sideEffects": false,
   "scripts": {
     "clean": "tsex clean",

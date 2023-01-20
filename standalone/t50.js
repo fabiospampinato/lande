@@ -13,11 +13,6 @@ const nn = new NeuralNetwork ( options );
 
 /* MAIN */
 
-/**
- * @param {string} text
- * @returns {[string, number][]}
- * */
-
 const lande = text => infer ( text, langs, ngrams, nn );
 
 /* EXPORT */
