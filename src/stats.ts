@@ -4,6 +4,7 @@
 import langdb from 'langs';
 import fs from 'node:fs';
 import path from 'node:path';
+import process from 'node:process';
 import {DATASET_PATH} from './constants';
 import {forEachLine} from './utils';
 import type {Stats} from './types';

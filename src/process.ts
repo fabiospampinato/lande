@@ -4,6 +4,7 @@
 import _ from 'lodash';
 import fs from 'node:fs';
 import path from 'node:path';
+import process from 'node:process';
 import {NeuralNetwork, Tensor, Trainers} from 'toygrad';
 import {DATASET_PATH, DATASET_TRAIN_LENGTH_MIN, DATASET_TRAIN_LIMIT, DATASET_TRAIN_PERC, CONFIGS} from './constants';
 import {forEachLine, getNormalized, getNgrams, getTopKeys, padEnd} from './utils';
