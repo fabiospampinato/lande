@@ -17,7 +17,7 @@ Details:
 1. Character ngrams, at length 1, 2, 3, and 4, are extracted from the input string, with the assumption that with this data it should be possible to tell apart natural languages fairly reliably, if the input string is long enough.
 2. Only a fixed number of the most frequent ngrams of supported languages are considered, which are extracted and stored during training, as they carry the most amount of signal overall, and the rest are simply discarded.
 3. Compared to `CLD3` ngrams are not hashed, as I think that kinda unpredictably confuses the model, as now different ngrams can have the same hash, so unimportant ngrams could be confused for important ones. Also that requires allocating a somewhat large key space for the hashes, while instead we want to be parsimonious with that, if we only need to remember 100 1-grams that's what we should be allocating memory for, but a small key space would get quickly crowded with colliding hashes, making it somewhat useless.
-4. Compared to `CLD3` no embedding layers are used here, as I think they are not needed with this approach because the model is being given clearer signals, since each input always corresponds to a specific ngram.
+4. Compared to `CLD3` no embedding layer is used here, as I think it's not needed with this approach because the model is being given clearer signals, since each input always corresponds to a specific ngram.
 5. The value of each input neuron is the normalized frequency of the ngram corresponding to that neuron in the input string. Basically we tell the network if each supported ngram is present and how frequent it is.
 6. To make a prediction the frequency of each supported input ngram is calculated, and a forward pass is performed.
 
